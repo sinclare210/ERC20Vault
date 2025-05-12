@@ -36,7 +36,7 @@ contract Vault {
         if (token.allowance(msg.sender, address(this)) < _amount) revert InsufficientAllowance();
 
         bool success = token.transferFrom(msg.sender, address(this), _amount);
-        require(success, "Transfer failed");
+        require(success, "deposit failed");
 
         balances[msg.sender] += _amount;
         contractBalance += _amount;
@@ -53,7 +53,7 @@ contract Vault {
         contractBalance -= _amount;
 
         bool success = token.transfer(msg.sender, _amount);
-        require(success, "Withdraw transfer failed");
+        require(success, "Withdraw failed");
 
         emit Withdrawn(msg.sender, _amount);
     }
