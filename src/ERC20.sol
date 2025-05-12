@@ -5,17 +5,12 @@ pragma solidity ^0.8.19;
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
-
 contract Sinclair is ERC20, ERC20Permit {
-    constructor(address recipient)
-        ERC20("Sinclair", "SIN")
-        ERC20Permit("Sinclair")
-    {
+    constructor(address recipient) ERC20("Sinclair", "SIN") ERC20Permit("Sinclair") {
         _mint(recipient, 100000000000 * 10 ** decimals());
     }
 
-    function unRestrictedMint(address _to, uint256 _amount) public{
+    function unRestrictedMint(address _to, uint256 _amount) public {
         _mint(_to, _amount);
     }
 }
-
