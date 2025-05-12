@@ -29,6 +29,14 @@ contract Vault {
         contractBalance = contractBalance + _amount;
     }
 
+    function withdraw (uint256 _amount) public {
+        balances[msg.sender] = balances[msg.sender] - _amount;
+        contractBalance = contractBalance - _amount;
+        (bool success) = token.transfer(msg.sender, _amount);
+        require (success, "Failed");
+
+    }
+
 
 
 
