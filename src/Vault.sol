@@ -15,6 +15,7 @@ contract Vault {
     error InsufficientFunds();
 
     constructor(address _token) {
+        if (_token == address(0)) revert InvalidAddress();
         token = IERC20(_token);
     }
 
@@ -29,7 +30,7 @@ contract Vault {
     function deposit(uint256 _amount) public {
         if (msg.sender == address(0)) revert InvalidAddress();
         if (_amount <= 0) revert ZeroNotAllowed();
-        if(token.allowance(msg.sender, address(this)) <= _amount) revert InsufficientFunds();
+        if(token.allowance(msg.sender, address(this)) < _amount) revert InsufficientFunds();
 
         (bool success) = token.transferFrom(msg.sender, address(this), _amount);
         require(success, "Transfer Failed");
