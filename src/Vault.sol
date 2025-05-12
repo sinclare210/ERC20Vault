@@ -7,20 +7,28 @@ contract Vault {
 
     IERC20 public immutable token;
 
+    mapping (address => uint256) balances;
+
+    uint256 contractBalance;
+
     constructor (address _token){
         token = IERC20(_token);
     }
 
-    function allowance() internal view {
-        token.allowance(msg.sender, address(this));
+    
 
+    function approve (uint256 _amount) public {
+        token.approve(address(this), _amount);
     }
 
-    function approve (uint256 _amount) internal {
-        token.approve(msg.sender, _amount);
+    function deposit (uint256 _amount) public {
+        
+        (bool success) = token.transferFrom(msg.sender, address(this), _amount);
+        require(success, "Transfer Failed");
+        balances[msg.sender] = balances[msg.sender] + _amount;
+        contractBalance = contractBalance + _amount;
     }
 
-    funtion 
 
 
 
