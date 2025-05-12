@@ -21,6 +21,7 @@ contract Vault {
     function approve(uint256 _amount) public {
         if (msg.sender == address(0)) revert InvalidAddress();
         if (_amount <= 0) revert ZeroNotAllowed();
+        if(token.balanceOf(msg.sender) <= _amount) revert InsufficientFunds();
         
         token.approve(address(this), _amount);
     }
@@ -29,6 +30,7 @@ contract Vault {
         if (msg.sender == address(0)) revert InvalidAddress();
         if (_amount <= 0) revert ZeroNotAllowed();
         if(token.allowance(msg.sender, address(this)) <= _amount) revert InsufficientFunds();
+
         (bool success) = token.transferFrom(msg.sender, address(this), _amount);
         require(success, "Transfer Failed");
         balances[msg.sender] = balances[msg.sender] + _amount;
