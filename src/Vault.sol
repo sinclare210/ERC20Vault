@@ -67,6 +67,7 @@ contract Vault {
         contractBalance -= _amount;
 
         bool success = token.transfer(msg.sender, _amount);
+        /// @notice take care of tokens that returns false when successful
         require(success, "Withdraw failed");
 
         emit Withdrawn(msg.sender, _amount);
