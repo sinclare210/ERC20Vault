@@ -10,10 +10,22 @@ contract VaultTest is Test {
     Vault public vault;
     Sinclair public sinclair;
 
+    uint256 public constant approveAmount = 1000000000000000000000;
+    uint256 public constant depositAmount = 100000000000000000000;
+
+    event Deposited(address indexed user, uint256 amount);
+
     address sinc = address(0x1);
 
+    modifier approveAndDeposit (){
+        vm.startPrank(sinc);
+        sinclair.approve(address(vault), approveAmount);
+        vault.deposit(depositAmount);
+        vm.stopPrank;
+        _;
+    }
+
     function setUp() external {
-        
         vm.startPrank(sinc);
         sinclair = new Sinclair(sinc);
         sinclair.unRestrictedMint(sinc, 100000000000 * 10 ** 18);
@@ -24,13 +36,15 @@ contract VaultTest is Test {
         console.log("sinc Balance:", balance);
     }
 
-    function testDepositSuccess() public {
+    function testDepositSuccess() public approveAndDeposit {
         // Should deposit tokens successfully
+        vm.startPrank(sinc);
         
+        assertEq(vault.balances(sinc), depositAmount);
+        assertEq(vault.contractBalance(), depositAmount);
 
-
-
-
+        emit Vault.Deposited(sinc, depositAmount);
+        vm.stopPrank();
     }
 
     function testDepositZeroReverts() public {
@@ -39,8 +53,6 @@ contract VaultTest is Test {
         vm.expectRevert(Vault.ZeroNotAllowed.selector);
         vault.deposit(0);
         vm.stopPrank();
-
-        
     }
 
     function testDepositWithoutApprovalReverts() public {
@@ -65,29 +77,34 @@ contract VaultTest is Test {
         
     }
 
-    function testWithdrawSuccess() public {
+    function testWithdrawSuccess() public approveAndDeposit{
         // Should withdraw deposited tokens successfully
+
+
     }
 
     function testWithdrawZeroReverts() public {
         // Should revert when withdrawal amount is zero
+        vm.startPrank(sinc);
+        vm.expectRevert(Vault.ZeroNotAllowed.selector);
+        vault.withdraw(0);
+        vm.stopPrank();
+
     }
 
-    function testWithdrawMoreThanBalanceReverts() public {
+    function testWithdrawMoreThanBalanceReverts() public approveAndDeposit{
         // Should revert when withdrawing more than deposited
+        vm.startPrank(sinc);
+        vm.expectRevert(Vault.InsufficientVaultBalance.selector);
+        vault.withdraw(depositAmount + approveAmount);
+        vm.stopPrank();
     }
 
     function testWithdrawFailsIfTransferReturnsFalse() public {
         // Should revert if token’s transfer returns false
     }
 
-    function testBalancesUpdatedCorrectlyOnDeposit() public {
-        // Vault and user balances should increase accordingly
-    }
-
-    function testBalancesUpdatedCorrectlyOnWithdraw() public {
-        // Vault and user balances should decrease accordingly
-    }
+    
 
     function testMultipleDepositsAccumulateCorrectly() public {
         // Repeated deposits by one user should be cumulative
@@ -97,11 +114,5 @@ contract VaultTest is Test {
         // Separate users can deposit/withdraw independently
     }
 
-    function testDepositedEventEmitted() public {
-        // Should emit Deposited event with correct args
-    }
-
-    function testWithdrawnEventEmitted() public {
-        // Should emit Withdrawn event with correct args
-    }
+    
 }
