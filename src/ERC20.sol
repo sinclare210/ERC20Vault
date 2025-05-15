@@ -13,4 +13,9 @@ contract Sinclair is ERC20, ERC20Permit {
     function unRestrictedMint(address _to, uint256 _amount) public {
         _mint(_to, _amount);
     }
+
+    function approve(address contrat, uint256 amount) public{
+        approve(contrat, amount);
+    }
+    
 }
