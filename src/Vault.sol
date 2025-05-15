@@ -69,8 +69,8 @@ contract Vault {
     function deposit(uint256 _amount) public {
         if (_amount == 0) revert ZeroNotAllowed();
         
-        bool success = token.approve(address(this), _amount);
-        require(success, "approve failed");
+        token.approve(address(this), _amount);
+        
         bool success = token.transferFrom(msg.sender, address(this), _amount);
         require(success, "deposit failed");
 
