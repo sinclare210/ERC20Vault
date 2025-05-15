@@ -91,10 +91,6 @@ contract VaultTest is Test {
         vm.stopPrank();
     }
 
-    function testDepositFailsIfTransferFromReturnsFalse() public {
-        // Should revert if token’s transferFrom returns false
-    }
-
     function testWithdrawSuccess() public approveAndDeposit {
         // Should withdraw deposited tokens successfully
         vm.startPrank(sinc);
@@ -120,10 +116,6 @@ contract VaultTest is Test {
         vm.expectRevert(Vault.InsufficientVaultBalance.selector);
         vault.withdraw(depositAmount + approveAmount);
         vm.stopPrank();
-    }
-
-    function testWithdrawFailsIfTransferReturnsFalse() public {
-        // Should revert if token’s transfer returns false
     }
 
     function testMultipleDepositsAccumulateCorrectly() public approveAndDeposit approveAndDeposit2 {
