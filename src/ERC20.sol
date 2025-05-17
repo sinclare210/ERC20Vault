@@ -14,8 +14,4 @@ contract Sinclair is ERC20 {
         _mint(_to, _amount);
     }
 
-    function approveContract(address spender, uint256 amount) public {
-        approve(spender, amount);
-    }
-
 }

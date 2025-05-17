@@ -10,7 +10,7 @@ contract VaultScript is Script {
 
     function run() external {
         vm.startBroadcast();
-        vault = new Vault(0xA1AB334dA781e7B22F16d951977114D9E467473B);
+        vault = new Vault(0x4CD275b1c9e1F2d4C10E08bBC6D8b34fC38Dc62a);
         vm.stopBroadcast();
     }
 }
