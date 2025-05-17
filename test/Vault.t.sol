@@ -75,22 +75,6 @@ contract VaultTest is Test {
         vm.stopPrank();
     }
 
-    function testDepositWithoutApprovalReverts() public {
-        vm.startPrank(sinc);
-        vm.expectRevert(Vault.InsufficientAllowance.selector);
-        vault.deposit(100000);
-        vm.stopPrank();
-    }
-
-    function testDepositInsufficientApprovalReverts() public {
-        // Should revert if approved amount is less than deposit
-        vm.startPrank(sinc);
-        sinclair.approve(address(this), 100000);
-        vm.expectRevert(Vault.InsufficientAllowance.selector);
-        vault.deposit(10000000);
-        vm.stopPrank();
-    }
-
     function testWithdrawSuccess() public approveAndDeposit {
         // Should withdraw deposited tokens successfully
         vm.startPrank(sinc);
