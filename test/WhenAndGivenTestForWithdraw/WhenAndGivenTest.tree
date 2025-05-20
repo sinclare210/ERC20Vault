@@ -1,0 +1,13 @@
+WhenAndGivenTestForWithdraw
+├── given _amount is 0
+│   └── it should revert with ZeroNotAllowed
+└── given _amount greater than 0
+    ├── given balances of msg sender less than _amount
+    │   └── it should revert with InsufficientVaultBalance
+    └── given balances of msg sender greater than or equals to _amount
+        ├── given transfer fails
+        │   └── it should revert with "Transfer failed"
+        └── given transfer succeeds
+            ├── it should decrease balances of msg sender by _amount
+            ├── it should decrease contractBalance by _amount
+            └── it should emit Withdrawn(msg sender, _amount)

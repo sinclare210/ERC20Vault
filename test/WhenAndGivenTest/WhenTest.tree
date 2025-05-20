@@ -1,0 +1,10 @@
+WhenAndGivenTestForDeposit
+├── given _amount is 0
+│   └── it should revert with ZeroNotAllowed
+└── given _amount greater than 0
+    ├── given transferFrom fails
+    │   └── it should revert with "TransferFrom failed"
+    └── given transferFrom succeeds
+        ├── it should increase balances of msg.sender by _amount
+        ├── it should increase contractBalance by _amount
+        └── it should emit Deposited(msg.sender, _amount)
