@@ -14,12 +14,8 @@ contract VaultTest is Test {
     uint256 public constant depositAmount = 100000000000000000000;
     uint256 public constant withdrawAmount = 10000000000000000000;
 
-
-
     address sinc = address(0x1);
     address sinc2 = address(0x2);
-
-    
 
     function setUp() external {
         sinclair = new Sinclair(address(this));
@@ -41,12 +37,4 @@ contract VaultTest is Test {
         uint256 balance2 = sinclair.balanceOf(sinc2);
         console.log("sinc2 Balance:", balance2);
     }
-
-
-
-    
-
-    
-
-    
 }

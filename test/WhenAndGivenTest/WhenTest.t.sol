@@ -4,13 +4,13 @@ pragma solidity ^0.8.19;
 import {VaultTest} from "../Vault.t.sol";
 import {Vault} from "../../src/Vault.sol";
 
-contract WhenAndGivenTestForDeposit is VaultTest{
-
-    
+contract WhenAndGivenTestForDeposit is VaultTest {
     uint256 public constant approvAmount = 10000000000000000000000;
     uint256 public constant depAmount = 100000000000000000000;
     uint256 public constant withdrawnAmount = 10000000000000000000;
+
     event Deposited(address indexed user, uint256 amount);
+
     address sinclare = address(0x1);
     address sinclairee = address(0x2);
 
@@ -29,8 +29,6 @@ contract WhenAndGivenTestForDeposit is VaultTest{
         vm.stopPrank;
         _;
     }
-
-    
 
     function test_GivenTransferFromSucceeds() external given_amountGreaterThan0 {
         // it should increase balances of msg.sender by _amount
